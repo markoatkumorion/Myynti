@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Myynti – Varastonhallinta</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">📦</span>
+        <span>Myynti</span>
+      </div>
+      <p class="tagline">Varastonhallinta</p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="searchInput" type="text" placeholder="Hae tuotetta tai kategoriaa…" autocomplete="off" />
+      </div>
+      <button id="openAddModal" class="btn btn-primary">+ Lisää tuote</button>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar" id="statsBar"></div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>Tuote</th>
+            <th>Kategoria</th>
+            <th>Yksikkö</th>
+            <th>Hinta</th>
+            <th class="qty-col">Varastomäärä</th>
+            <th>Toiminnot</th>
+          </tr>
+        </thead>
+        <tbody id="productBody">
+          <tr><td colspan="6" class="loading">Ladataan…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div id="addModal" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">Lisää uusi tuote</h2>
+        <button class="modal-close" id="closeAddModal" aria-label="Sulje">✕</button>
+      </div>
+      <form id="addForm" novalidate>
+        <div class="form-grid">
+          <label>
+            Tuotenimi *
+            <input type="text" name="name" required placeholder="esim. Kahvi 500g" />
+          </label>
+          <label>
+            Kategoria *
+            <input type="text" name="category" required placeholder="esim. Ruoka" list="categoryList" />
+            <datalist id="categoryList"></datalist>
+          </label>
+          <label>
+            Hinta (€) *
+            <input type="number" name="price" required min="0" step="0.01" placeholder="0.00" />
+          </label>
+          <label>
+            Yksikkö *
+            <input type="text" name="unit" required placeholder="kpl / kg / l" list="unitList" />
+            <datalist id="unitList">
+              <option value="kpl">
+              <option value="kg">
+              <option value="l">
+              <option value="pss">
+              <option value="tlk">
+              <option value="pkt">
+              <option value="pari">
+            </datalist>
+          </label>
+          <label class="span2">
+            Alkumäärä *
+            <input type="number" name="quantity" required min="0" step="1" placeholder="0" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelAdd">Peruuta</button>
+          <button type="submit" class="btn btn-primary">Tallenna</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div id="editModal" class="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div class="modal-header">
+        <h2 id="editModalTitle">Muokkaa tuotetta</h2>
+        <button class="modal-close" id="closeEditModal" aria-label="Sulje">✕</button>
+      </div>
+      <form id="editForm" novalidate>
+        <input type="hidden" name="id" />
+        <div class="form-grid">
+          <label>
+            Tuotenimi *
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Kategoria *
+            <input type="text" name="category" required list="categoryList" />
+          </label>
+          <label>
+            Hinta (€) *
+            <input type="number" name="price" required min="0" step="0.01" />
+          </label>
+          <label>
+            Yksikkö *
+            <input type="text" name="unit" required list="unitList" />
+          </label>
+          <label class="span2">
+            Varastomäärä *
+            <input type="number" name="quantity" required min="0" step="1" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" id="cancelEdit">Peruuta</button>
+          <button type="submit" class="btn btn-primary">Tallenna muutokset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
